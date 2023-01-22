@@ -1,0 +1,149 @@
+{
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "ci-base",
+      "hidden": true,
+      "toolchainFile": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_CXX_STANDARD_REQUIRED": "YES",
+        "CMAKE_CXX_EXTENSIONS": "NO"
+      }
+    },
+    {
+      "name": "ci-default",
+      "inherits": "ci-base",
+      "displayName": "CI Default Config",
+      "description": "Default cross-platform configuration",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/ci-default"
+    },
+    {
+      "name": "ci-linux",
+      "inherits": "ci-base",
+      "displayName": "CI Linux Config",
+      "description": "Default Linux using Ninja",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/ci-linux",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "ci-macos",
+      "inherits": "ci-base",
+      "displayName": "CI macOS Config",
+      "description": "Default macOS using Xcode generator",
+      "generator": "Xcode",
+      "binaryDir": "${sourceDir}/build/ci-macos",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "ci-iwyu",
+      "inherits": "ci-base",
+      "displayName": "CI include-what-you-use Config",
+      "description": "include-what-you-use configuration",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/ci-iwyu",
+      "cacheVariables": {
+        "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "include-what-you-use;-Xiwyu;--cxx17ns;-Xiwyu;--mapping_file=${fileDir}/iwyu_mappings.imp;-Xiwyu;--update_comments"
+      }
+    },
+    {
+      "name": "ci-clang-tidy",
+      "inherits": "ci-base",
+      "displayName": "CI Clang-Tidy Check Config",
+      "description": "Clang-Tidy check configuration",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/ci-clang-tidy",
+      "cacheVariables": {
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-header-filter=.*;-checks=-*,cppcoreguidelines-*,modernize-*,readability-*;-warnings-as-errors=*"
+      }
+    },
+    {
+      "name": "ci-clang-tidy-fix",
+      "inherits": "ci-clang-tidy",
+      "displayName": "CI Clang-Tidy Fix Config",
+      "description": "Clang-Tidy fix configuration",
+      "binaryDir": "${sourceDir}/build/ci-clang-tidy-fix",
+      "cacheVariables": {
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-header-filter=.*;-checks=-*,cppcoreguidelines-*,modernize-*,readability-*;-fix"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "ci-default",
+      "configurePreset": "ci-default"
+    },
+    {
+      "name": "ci-linux",
+      "configurePreset": "ci-linux",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "ci-macos",
+      "configurePreset": "ci-macos",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "ci-iwyu",
+      "configurePreset": "ci-iwyu",
+      "cleanFirst": true
+    },
+    {
+      "name": "ci-clang-tidy",
+      "configurePreset": "ci-clang-tidy",
+      "cleanFirst": true
+    },
+    {
+      "name": "ci-clang-tidy-fix",
+      "configurePreset": "ci-clang-tidy-fix",
+      "cleanFirst": true
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "ci-default",
+      "configurePreset": "ci-default"
+    },
+    {
+      "name": "ci-linux",
+      "configurePreset": "ci-linux",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "ci-macos",
+      "configurePreset": "ci-macos",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    }
+  ]
+}

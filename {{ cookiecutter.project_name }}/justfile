@@ -1,0 +1,68 @@
+set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
+
+bool_prefix := if os_family() == "windows" { "$" } else { "" }
+system_python := if os_family() == "windows" { "py.exe" } else { "python" }
+python_dir := if os_family() == "windows" { "./.venv/Scripts" } else { "./.venv/bin" }
+python := python_dir + if os_family() == "windows" { "/python.exe" } else { "/python" }
+venv_exists := bool_prefix + path_exists(".venv")
+run_clang_format := "external" / "run-clang-format" / "run-clang-format.py"
+cmake_files := replace(`git ls-files '**/CMakeLists.txt'`, "\n", " ")
+
+preset := if os() == "linux" {
+    "ci-linux"
+} else if os() == "macos" {
+    "ci-macos"
+} else if os() == "windows" {
+    "ci-windows"
+} else {
+    error("Unknown platform")
+}
+
+config := "Debug"
+
+# Installs tools and prepares build environment
+setup:
+    {{ venv_exists }} || {{ system_python }} -m venv .venv --upgrade-deps
+    {{ python }} -m pip install --upgrade pip wheel pip-tools --quiet
+    {{ python }} -m piptools sync --quiet
+    cmake --preset {{preset}}
+
+# Compiles the project
+build:
+    cmake --build --preset {{preset}} --config {{config}}
+
+# Runs the tests
+test: build
+    ctest --preset {{preset}} --build-config {{config}}
+
+# Deletes build files
+clean:
+    cmake --build --preset {{preset}} --config {{config}} --target clean
+
+# Formats C++ files
+cpp-fmt:
+    {{ python }} {{ run_clang_format }} --recursive . --in-place
+
+# Formats C++ and CMake files
+fmt: && cpp-fmt
+    {{ python }} -m cmakelang.format {{ cmake_files }} --in-place
+
+# Checks formatting of C++ and CMake files
+fmt-check:
+    {{ python }} -m cmakelang.format {{ cmake_files }} --check
+    {{ python }} {{ run_clang_format }} --recursive .
+
+# Runs static analysis
+lint:
+    {{ python }} -m cmakelang.lint {{ cmake_files }}
+    cmake --preset ci-iwyu && cmake --build --preset ci-iwyu
+    cmake --preset ci-clang-tidy && cmake --build --preset ci-clang-tidy
+
+# Fixes static analysis warnings
+lint-fix: && cpp-fmt
+    cmake --build --preset ci-iwyu | fix_includes.py --comments --update_comments
+    cmake --preset ci-clang-tidy-fix && cmake --build --preset ci-clang-tidy-fix
+
+# Runs CI validation
+ci:
+    just config=Release setup fmt-check clean build lint test

@@ -1,0 +1,5 @@
+[
+  { include: ["<__memory/shared_ptr.h>", "private", "<memory>", "public"] },
+  { include: ["<__memory/unique_ptr.h>", "private", "<memory>", "public"] },
+  { include: ["<__utility/move.h>", "private", "<memory>", "public"] },
+]
