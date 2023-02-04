@@ -81,6 +81,32 @@
       "cacheVariables": {
         "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-header-filter=.*;-checks=-*,cppcoreguidelines-*,modernize-*,readability-*;-fix"
       }
+    },
+    {
+      "name": "ci-macos-asan-ubsan",
+      "inherits": "ci-macos",
+      "binaryDir": "${sourceDir}/build/ci-macos-asan-ubsan",
+      "cacheVariables": {
+        "ENABLE_ASAN_UBSAN": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "ci-macos-tsan",
+      "inherits": "ci-macos",
+      "binaryDir": "${sourceDir}/build/ci-macos-tsan",
+      "cacheVariables": {
+        "ENABLE_TSAN": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
     }
   ],
   "buildPresets": [
@@ -120,6 +146,24 @@
       "name": "ci-clang-tidy-fix",
       "configurePreset": "ci-clang-tidy-fix",
       "cleanFirst": true
+    },
+    {
+      "name": "ci-macos-asan-ubsan",
+      "configurePreset": "ci-macos-asan-ubsan",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "ci-macos-tsan",
+      "configurePreset": "ci-macos-tsan",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
     }
   ],
   "testPresets": [
@@ -139,6 +183,24 @@
     {
       "name": "ci-macos",
       "configurePreset": "ci-macos",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "ci-macos-asan-ubsan",
+      "configurePreset": "ci-macos-asan-ubsan",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "ci-macos-tsan",
+      "configurePreset": "ci-macos-tsan",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",

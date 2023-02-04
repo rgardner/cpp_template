@@ -18,6 +18,7 @@ set(CMAKE_CXX_EXTENSIONS NO)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # improve Intellisense
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) # use folders in IDEs
+set(CMAKE_XCODE_GENERATE_SCHEME YES)
 
 # Restrict valid build types for non-multi-config generators, e.g. cannot
 # accidently use build type 'Dbg' with Ninja.
@@ -34,10 +35,27 @@ if(NOT isMultiConfig)
   endif()
 endif()
 
+option(ENABLE_ASAN_UBSAN
+       "Enable AddressSanitizer (ASan) and UndefinedBehavior Sanitizer (UBSan)"
+       OFF)
+if(ENABLE_ASAN_UBSAN)
+  add_compile_options(-fsanitize=address -fsanitize=undefined)
+  add_link_options(-fsanitize=address -fsanitize=undefined)
+  set(CMAKE_XCODE_SCHEME_ADDRESS_SANITIZER ON)
+  set(CMAKE_XCODE_SCHEME_ADDRESS_SANITIZER_USE_AFTER_RETURN ON)
+  set(CMAKE_XCODE_SCHEME_UNDEFINED_BEHAVIOUR_SANITIZER ON)
+endif()
+
+option(ENABLE_TSAN "Enable ThreadSanitizer (TSan)" OFF)
+if(ENABLE_TSAN)
+  add_compile_options(-fsanitize=thread)
+  add_link_options(-fsanitize=thread)
+  set(CMAKE_XCODE_SCHEME_THREAD_SANITIZER ON)
+endif()
+
 set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY
     "-"
     CACHE STRING "")
-
 set(CMAKE_XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_WEAK YES)
 set(CMAKE_XCODE_ATTRIBUTE_CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING YES)
 set(CMAKE_XCODE_ATTRIBUTE_CLANG_WARN_BOOL_CONVERSION YES)

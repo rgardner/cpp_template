@@ -14,5 +14,6 @@ target_link_libraries({{ cookiecutter.__cmake_test_target_name }} PRIVATE {{ coo
 # Testing
 # =============================
 if(TEST_{{ cookiecutter.project_name|upper }} OR CMAKE_SOURCE_DIR STREQUAL {{ cookiecutter.project_name }}_SOURCE_DIR)
-add_test(NAME {{ cookiecutter.project_name }} COMMAND {{ cookiecutter.__cmake_test_target_name }})
+  # gtest_discover_tests doesn't work with Xcode 14
+  add_test(NAME {{ cookiecutter.project_name }} COMMAND {{ cookiecutter.__cmake_test_target_name }})
 endif()
