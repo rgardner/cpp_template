@@ -24,13 +24,14 @@ set(CMAKE_XCODE_GENERATE_SCHEME YES)
 # accidently use build type 'Dbg' with Ninja.
 get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(NOT isMultiConfig)
-  set(allowableBuildTypes Debug Release RelWithDebInfo)
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "${allowableBuildTypes}")
+  set(_allowable_build_types Debug Release RelWithDebInfo)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+                                               "${_allowable_build_types}")
   if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE
         Debug
         CACHE STRING "" FORCE)
-  elseif(NOT CMAKE_BUILD_TYPE IN_LIST allowableBuildTypes)
+  elseif(NOT CMAKE_BUILD_TYPE IN_LIST _allowable_build_types)
     message(FATAL_ERROR "Invalid build type: ${CMAKE_BUILD_TYPE}")
   endif()
 endif()

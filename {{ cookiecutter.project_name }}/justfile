@@ -22,10 +22,15 @@ config := "Debug"
 
 # Installs tools and prepares build environment
 setup:
+    just venv
+    {{ python }} -m pre_commit install
+    just configure
+
+# Creates and syncs Python virtual environment
+venv:
     {{ venv_exists }} || {{ system_python }} -m venv .venv --upgrade-deps
     {{ python }} -m pip install --upgrade pip wheel pip-tools --quiet
     {{ python }} -m piptools sync --quiet
-    just configure
 
 # Generates projects
 configure:
@@ -81,4 +86,5 @@ tsan:
 
 # Runs CI validation
 ci:
+    {{python }} -m pre_commit run --all-files
     just config=Release setup fmt-check clean build lint test
