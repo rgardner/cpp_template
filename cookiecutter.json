@@ -6,6 +6,9 @@
   "__cmake_test_target_base_name": "{{ cookiecutter.project_name }}_test",
   "__cmake_test_target_name": "{{ cookiecutter.project_name }}_{{ cookiecutter.__cmake_test_target_base_name }}",
   "__cmake_test_target_name_ns": "{{ cookiecutter.project_name }}::{{ cookiecutter.__cmake_test_target_base_name }}",
+  "__cmake_project_flags_target_base_name": "{{ cookiecutter.project_name }}_project_flags",
+  "__cmake_project_flags_target_name": "{{ cookiecutter.project_name }}_{{ cookiecutter.__cmake_project_flags_target_base_name }}",
+  "__cmake_project_flags_target_name_ns": "{{ cookiecutter.project_name }}::{{ cookiecutter.__cmake_project_flags_target_base_name }}",
   "_copy_without_render": [
       "justfile"
   ]
