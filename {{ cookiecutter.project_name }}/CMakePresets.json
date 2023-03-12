@@ -64,7 +64,7 @@
       "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/ci-clang-tidy",
       "cacheVariables": {
-        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-header-filter=.*;-warnings-as-errors=*"
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-warnings-as-errors=*"
       }
     },
     {
@@ -74,7 +74,7 @@
       "description": "Clang-Tidy fix configuration",
       "binaryDir": "${sourceDir}/build/ci-clang-tidy-fix",
       "cacheVariables": {
-        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-header-filter=.*;-fix"
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-fix"
       }
     },
     {
