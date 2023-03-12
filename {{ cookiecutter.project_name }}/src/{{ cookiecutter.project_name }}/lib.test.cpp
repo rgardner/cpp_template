@@ -1,10 +1,10 @@
 // Copyright 2023 Bob Gardner
 
-#include <memory>               // for allocator
+#include "{{ cookiecutter.project_name }}/lib.hpp"  // for Add
 
-#include "gtest/gtest.h"        // for Test, EXPECT_EQ, Message, TEST, TestP...
+#include <memory>  // for allocator
 
-#include "{{ cookiecutter.project_name }}/lib.hpp" // for add
+#include "gtest/gtest.h"  // for Test, EXPECT_EQ, Message, TEST, TestPar...
 
 namespace {{ cookiecutter.project_name }} {
 namespace {
