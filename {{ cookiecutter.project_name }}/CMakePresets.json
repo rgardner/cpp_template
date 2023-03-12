@@ -12,12 +12,12 @@
       "toolchainFile": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake"
     },
     {
-      "name": "ci-default",
+      "name": "ci-portable",
       "inherits": "ci-base",
-      "displayName": "CI Default Config",
+      "displayName": "CI Portable Config",
       "description": "Default cross-platform configuration",
       "generator": "Ninja Multi-Config",
-      "binaryDir": "${sourceDir}/build/ci-default"
+      "binaryDir": "${sourceDir}/build/ci-portable"
     },
     {
       "name": "ci-linux",
@@ -106,8 +106,8 @@
   ],
   "buildPresets": [
     {
-      "name": "ci-default",
-      "configurePreset": "ci-default"
+      "name": "ci-portable",
+      "configurePreset": "ci-portable"
     },
     {
       "name": "ci-linux",
@@ -163,8 +163,8 @@
   ],
   "testPresets": [
     {
-      "name": "ci-default",
-      "configurePreset": "ci-default"
+      "name": "ci-portable",
+      "configurePreset": "ci-portable"
     },
     {
       "name": "ci-linux",
