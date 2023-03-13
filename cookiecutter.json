@@ -1,15 +1,18 @@
 {
   "project_name": "awesome_cpp",
-  "__cmake_target_base_name": "{{ cookiecutter.project_name }}",
-  "__cmake_target_name": "{{ cookiecutter.project_name }}_{{ cookiecutter.__cmake_target_base_name }}",
-  "__cmake_target_name_ns": "{{ cookiecutter.project_name }}::{{ cookiecutter.__cmake_target_base_name }}",
+  "__cmake_lib_target_base_name": "{{ cookiecutter.project_name }}",
+  "__cmake_lib_target_name": "{{ cookiecutter.project_name }}_{{ cookiecutter.__cmake_lib_target_base_name }}",
+  "__cmake_lib_target_name_ns": "{{ cookiecutter.project_name }}::{{ cookiecutter.__cmake_lib_target_base_name }}",
   "__cmake_test_target_base_name": "{{ cookiecutter.project_name }}_test",
   "__cmake_test_target_name": "{{ cookiecutter.project_name }}_{{ cookiecutter.__cmake_test_target_base_name }}",
   "__cmake_test_target_name_ns": "{{ cookiecutter.project_name }}::{{ cookiecutter.__cmake_test_target_base_name }}",
+  "__cmake_main_target_name": "{{ cookiecutter.project_name }}_main",
+  "__cmake_main_target_name_ns": "{{ cookiecutter.project_name }}::main",
+  "__cmake_run_main_target_name": "{{ cookiecutter.__cmake_main_target_name }}_run",
   "__cmake_project_flags_target_base_name": "{{ cookiecutter.project_name }}_project_flags",
   "__cmake_project_flags_target_name": "{{ cookiecutter.project_name }}_{{ cookiecutter.__cmake_project_flags_target_base_name }}",
   "__cmake_project_flags_target_name_ns": "{{ cookiecutter.project_name }}::{{ cookiecutter.__cmake_project_flags_target_base_name }}",
   "_copy_without_render": [
-      "justfile"
+    "justfile"
   ]
 }

@@ -110,6 +110,13 @@
       "configurePreset": "ci-portable"
     },
     {
+      "name": "ci-portable-run",
+      "configurePreset": "ci-portable",
+      "targets": [
+        "{{ cookiecutter.__cmake_run_main_target_name }}"
+      ]
+    },
+    {
       "name": "ci-linux",
       "configurePreset": "ci-linux",
       "condition": {
@@ -119,6 +126,18 @@
       }
     },
     {
+      "name": "ci-linux-run",
+      "configurePreset": "ci-linux",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "targets": [
+        "{{ cookiecutter.__cmake_run_main_target_name }}"
+      ]
+    },
+    {
       "name": "ci-macos",
       "configurePreset": "ci-macos",
       "condition": {
@@ -126,6 +145,18 @@
         "lhs": "${hostSystemName}",
         "rhs": "Darwin"
       }
+    },
+    {
+      "name": "ci-macos-run",
+      "configurePreset": "ci-macos",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "targets": [
+        "{{ cookiecutter.__cmake_run_main_target_name }}"
+      ]
     },
     {
       "name": "ci-iwyu",

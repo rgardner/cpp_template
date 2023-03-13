@@ -44,6 +44,10 @@ build:
 test: build
     ctest --preset {{preset}} --build-config {{config}}
 
+# Run the main app
+run:
+    cmake --build --preset {{preset}}-run --config {{config}}
+
 # Deletes build files
 clean:
     cmake --build --preset {{preset}} --config {{config}} --target clean
